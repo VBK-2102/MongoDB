@@ -1,0 +1,21 @@
+{
+  "name": "crypto-pay-server",
+  "version": "1.0.0",
+  "description": "Combined backend server for Crypto Pay application with MongoDB and Cashfree integration",
+  "main": "server-combined.js",
+  "scripts": {
+    "start": "node server-combined.js",
+    "dev": "node server-combined.js",
+    "legacy": "node server.cjs"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "mongodb": "^6.19.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
