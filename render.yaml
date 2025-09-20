@@ -11,7 +11,7 @@ services:
       - key: PORT
         value: 5000
       - key: MONGODB_URI
-        value: mongodb+srv://donvaibhav21:<StX7LTcANb9G5NxI>@cluster0.dmd7ds0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        value: mongodb+srv://donvaibhav21:StX7LTcANb9G5NxI@cluster0.dmd7ds0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       - key: DB_NAME
         value: CyrptopayDB
       - key: CASHFREE_APP_ID
@@ -23,4 +23,4 @@ services:
       - key: CASHFREE_BASE
         value: https://sandbox.cashfree.com/pg
       - key: CLIENT_ORIGIN
-        value: https://your-frontend-domain.com
+        value: https://rainbow-gecko-03f305.netlify.app

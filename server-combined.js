@@ -53,8 +53,12 @@ app.use(cors({
     "http://127.0.0.1:5173",
     "http://192.168.1.61:3000",
     "http://192.168.1.61:5173",
+    "https://rainbow-gecko-03f305.netlify.app",
     "https://rainbow-gecko-03f305.netlify.app/"
-  ]
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-client-id', 'x-client-secret']
 }));
 app.use(express.json());
 
