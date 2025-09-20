@@ -87,6 +87,10 @@ Backend/
 
 ## Deployment on Render
 
+This server provides **API endpoints only**. It does not serve the React frontend.
+
+### Deploy API Server:
+
 1. Connect your GitHub repository to Render
 2. Create a new Web Service
 3. Use the following settings:
@@ -100,6 +104,16 @@ Backend/
    - `CASHFREE_APP_ID`
    - `CASHFREE_SECRET_KEY`
    - `CLIENT_ORIGIN` (your frontend domain)
+
+### Deploy Frontend Separately:
+
+Deploy your React frontend (`new/` folder) separately to:
+- Netlify
+- Vercel
+- Render (as a separate service)
+- Or any other static hosting service
+
+Then update the frontend's API configuration to point to your deployed API server.
 
 ## Frontend Configuration
 

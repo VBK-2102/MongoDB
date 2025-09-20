@@ -58,8 +58,18 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve static files from the React app build directory
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve static files from the React app build directory (if it exists)
+const distPath = path.join(__dirname, 'dist');
+try {
+  if (require('fs').existsSync(distPath)) {
+    app.use(express.static(distPath));
+    console.log('📁 Serving static files from dist directory');
+  } else {
+    console.log('⚠️  No dist directory found - static file serving disabled');
+  }
+} catch (error) {
+  console.log('⚠️  Static file serving disabled:', error.message);
+}
 
 // ==================== MONGODB ROUTES ====================
 
@@ -267,8 +277,26 @@ app.use((req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API endpoint not found' });
   }
-  // Serve React app for all other routes
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  
+  // Check if dist directory exists
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+  if (require('fs').existsSync(indexPath)) {
+    // Serve React app for all other routes
+    res.sendFile(indexPath);
+  } else {
+    // Return a simple message if no frontend is available
+    res.status(200).json({
+      message: 'Crypto Pay API Server is running',
+      status: 'API Only Mode',
+      note: 'Frontend files not found. This server provides API endpoints only.',
+      endpoints: {
+        health: '/api/health',
+        users: '/api/users',
+        transactions: '/api/transactions',
+        cashfree: '/api/create-order'
+      }
+    });
+  }
 });
 
 // ==================== SERVER STARTUP ====================

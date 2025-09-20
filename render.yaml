@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: crypto-pay-combined-server
+    name: crypto-pay-api-server
     env: node
     plan: free
     buildCommand: npm install
