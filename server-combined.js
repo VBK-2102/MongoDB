@@ -90,16 +90,6 @@ app.use(cors({
 
 // CORS middleware handles preflight requests automatically
 
-// Explicit OPTIONS handler for preflight requests
-app.options('*', (req, res) => {
-  console.log("🔄 Handling OPTIONS preflight request from:", req.headers.origin);
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-client-id, x-client-secret, X-Client-Id, X-Client-Secret');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(200);
-});
-
 app.use(express.json());
 
 // Serve static files from the React app build directory (if it exists)
