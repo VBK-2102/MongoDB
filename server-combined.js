@@ -54,6 +54,7 @@ const allowedOrigins = [
   "http://192.168.1.61:5173",
   "https://rainbow-gecko-03f305.netlify.app",
   "https://rainbow-gecko-03f305.netlify.app/",
+  "https://cryptopay2.netlify.app",
   "https://cryptopay2.netlify.app/"
 ];
 
@@ -69,11 +70,16 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Normalize origin by removing trailing slash for comparison
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    const normalizedAllowedOrigins = allowedOrigins.map(orig => orig.replace(/\/$/, ''));
+    
+    if (normalizedAllowedOrigins.indexOf(normalizedOrigin) !== -1) {
       console.log("✅ CORS: Origin allowed:", origin);
       callback(null, true);
     } else {
       console.log("❌ CORS: Origin blocked:", origin);
+      console.log("🔍 Allowed origins:", normalizedAllowedOrigins);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -83,6 +89,16 @@ app.use(cors({
 }));
 
 // CORS middleware handles preflight requests automatically
+
+// Explicit OPTIONS handler for preflight requests
+app.options('*', (req, res) => {
+  console.log("🔄 Handling OPTIONS preflight request from:", req.headers.origin);
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-client-id, x-client-secret, X-Client-Id, X-Client-Secret');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
 
 app.use(express.json());
 
@@ -415,6 +431,10 @@ app.post("/api/verify-bank", async (req, res) => {
 // ==================== HEALTH CHECK ====================
 
 app.get('/api/health', (req, res) => {
+  // Explicitly set CORS headers
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
   res.json({ 
     status: 'OK', 
     message: 'Combined Crypto Pay Server is running',
@@ -427,7 +447,11 @@ app.get('/api/health', (req, res) => {
       cashfree: '/api/create-order, /api/order-status',
       bank: '/api/verify-bank, /api/verify-bank/test'
     },
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    cors: {
+      origin: req.headers.origin,
+      allowed: true
+    }
   });
 });
 
