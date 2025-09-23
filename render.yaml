@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: crypto-pay-api-server
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        value: mongodb+srv://donvaibhav21:StX7LTcANb9G5NxI@cluster0.dmd7ds0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: DB_NAME
+        value: CyrptopayDB
+      - key: CASHFREE_APP_ID
+        value: TEST10783812f10718d0b666328656b221838701
+      - key: CASHFREE_SECRET_KEY
+        value: cfsk_ma_test_055a585aa73adc293efd874e702cd10c_23aa53e9
+      - key: CASHFREE_API_VERSION
+        value: 2023-08-01
+      - key: CASHFREE_BASE
+        value: https://sandbox.cashfree.com/pg
+      - key: CLIENT_ORIGIN
+        value: https://rainbow-gecko-03f305.netlify.app
